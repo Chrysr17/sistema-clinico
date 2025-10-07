@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Horas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container py-5">
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h2>Horas Registradas</h2>
+            <div>
+                <a href="/" class="btn btn-light btn-sm me-2">🏠 Menú Principal</a>
+                <a th:href="@{/horas/nuevo}" class="btn btn-light btn-sm">+ Nueva Hora</a>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="h : ${lista}">
+                    <td th:text="${h.id}"></td>
+                    <td th:text="${h.horaInicio}">08:00</td>
+                    <td th:text="${h.horaFin}">09:00</td>
+                    <td>
+                        <a th:href="@{/horas/editar/{id}(id=${h.id})}" class="btn btn-warning btn-sm">Editar</a>
+                        <a th:href="@{/horas/eliminar/{id}(id=${h.id})}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('¿Estás seguro de eliminar esta hora?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

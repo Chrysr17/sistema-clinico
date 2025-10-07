@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Atenciones</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .card {
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .table th, .table td {
+      vertical-align: middle;
+      text-align: center;
+    }
+    .btn-print {
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h3 class="fw-bold">📋 Atenciones Realizadas</h3>
+    <p class="text-muted">Consulta e imprime las atenciones médicas que has realizado.</p>
+  </div>
+
+  <div class="card p-4">
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead class="table-primary">
+        <tr>
+          <th>Paciente</th>
+          <th>Fecha</th>
+          <th>Diagnóstico</th>
+          <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="a : ${atenciones}">
+          <td th:text="${a.cita.paciente.nombres + ' ' + a.cita.paciente.apellidos}"></td>
+          <td th:text="${#dates.format(a.fechaAtencion, 'dd/MM/yyyy HH:mm')}"></td>
+          <td th:text="${a.diagnostico.descripcion}"></td>
+          <td>
+            <a th:href="@{'/atencion/imprimir/' + ${a.idAtencion}}" target="_self" class="btn btn-outline-secondary btn-sm btn-print">
+              🖨 Imprimir
+            </a>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(atenciones)}">
+          <td colspan="4" class="text-center text-muted">No se han registrado atenciones aún.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

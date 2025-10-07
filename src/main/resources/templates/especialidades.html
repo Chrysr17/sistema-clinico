@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Especialidades Médicas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Especialidades Médicas</h4>
+                <div>
+                    <a href="/" class="btn btn-light btn-sm me-2">🏠 Menú Principal</a>
+                    <a href="/especialidades/nuevo" class="btn btn-light btn-sm">+ Nueva Especialidad</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-secondary">
+                        <tr class="text-center">
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre de la Especialidad</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="esp : ${especialidades}">
+                            <td class="text-center" th:text="${esp.idEspecialidad}"></td>
+                            <td th:text="${esp.nombreEspecialidad}"></td>
+                            <td class="text-center">
+                                <a th:href="@{/especialidades/editar/{id}(id=${esp.idEspecialidad})}"
+                                    class="btn btn-sm btn-outline-primary">Editar</a>
+                                <a th:href="@{/especialidades/eliminar/{id}(id=${esp.idEspecialidad})}"
+                                    class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('¿Estás seguro de eliminar esta especialidad?');">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${especialidades.empty}">
+                            <td colspan="3" class="text-center text-muted">No hay especialidades registradas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

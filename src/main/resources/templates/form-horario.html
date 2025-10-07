@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Horario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0" th:text="${horario.idHorario == null} ? 'Nuevo Horario' : 'Editar Horario'"></h5>
+                <a href="/horarios" class="btn btn-light btn-sm">← Volver</a>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/horarios/guardar}" th:object="${horario}" method="post">
+                    <input type="hidden" th:field="*{idHorario}">
+
+                    <div class="mb-3">
+                        <label for="fechaHorario" class="form-label">Fecha</label>
+                        <input type="date" id="fechaHorario" th:field="*{fechaHorario}" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="empleado" class="form-label">Empleado</label>
+                        <select id="empleado" th:field="*{empleado.idEmpleado}" class="form-select" required>
+                            <option value="" disabled selected>Seleccione un empleado</option>
+                            <option th:each="e : ${empleados}" th:value="${e.idEmpleado}" th:text="${e.nombreEmpleado}"></option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success px-4">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

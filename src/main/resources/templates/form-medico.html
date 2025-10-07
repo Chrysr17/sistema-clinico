@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Médico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container py-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0" th:text="${medico.idMedico == null} ? 'Nuevo Médico' : 'Editar Médico'"></h5>
+                <a href="/medicos" class="btn btn-light btn-sm">← Volver</a>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/medicos/guardar}" th:object="${medico}" method="post">
+                    <input type="hidden" th:field="*{idMedico}">
+
+                    <!-- Nombre del Médico -->
+                    <div class="mb-3">
+                        <label for="nombreMedico" class="form-label">Nombre del Médico</label>
+                        <input type="text" id="nombreMedico" th:field="*{nombreMedico}" class="form-control"
+                            placeholder="Ej. Dr. Juan Pérez" required>
+                    </div>
+
+                    <!-- Especialidad -->
+                    <div class="mb-3">
+                        <label for="especialidad" class="form-label">Especialidad</label>
+                        <select id="especialidad" th:field="*{especialidad.idEspecialidad}" class="form-select" required>
+                            <option value="" disabled selected>Seleccione una especialidad</option>
+                            <option th:each="esp : ${especialidades}"
+                                    th:value="${esp.idEspecialidad}"
+                                    th:text="${esp.nombreEspecialidad}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="mb-3">
+                        <label for="estado" class="form-label">Estado</label>
+                        <select id="estado" th:field="*{estado}" class="form-select" required>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <!-- Botón Guardar -->
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success px-4">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

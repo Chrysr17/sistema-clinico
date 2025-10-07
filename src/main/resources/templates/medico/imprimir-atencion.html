@@ -1,0 +1,88 @@
+  <!DOCTYPE html>
+  <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Atención Médica</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      @media print {
+        .no-print { display: none; }
+      }
+    </style>
+  </head>
+  <body class="bg-white">
+  <div class="container mt-4">
+
+    <div class="text-center mb-4">
+      <h4>Clínica Médica Central</h4>
+      <h5>Atención Médica</h5>
+      <hr>
+    </div>
+
+    <!-- Info general -->
+    <div class="mb-3">
+      <p><strong>Paciente:</strong>
+        <span th:text="${atencion.cita.paciente.nombres + ' ' + atencion.cita.paciente.apellidos}"></span>
+      </p>
+      <p><strong>Médico:</strong>
+        <span th:text="${atencion.cita.medico.nombreMedico}"></span>
+      </p>
+      <p><strong>Fecha de atención y hora de atención:</strong>
+        <span th:text="${#dates.format(atencion.fechaAtencion, 'dd/MM/yyyy HH:mm')}"></span>
+      </p>
+    </div>
+
+    <!-- Diagnóstico -->
+    <div class="mb-3">
+      <h6>Diagnóstico</h6>
+      <p th:text="${atencion.diagnostico.descripcion}"></p>
+    </div>
+
+    <!-- Tratamiento -->
+    <div class="mb-3" th:if="${atencion.tratamiento != null}">
+      <h6>Tratamiento</h6>
+      <p>
+        <strong>Descripción:</strong>
+        <span th:text="${atencion.tratamiento.descripcion}"></span>
+      </p>
+      <p th:if="${atencion.tratamiento.fechaInicio != null}">
+        <strong>Desde:</strong> <span th:text="${#temporals.format(atencion.tratamiento.fechaInicio, 'dd/MM/yyyy')}"></span>
+
+        <strong>Hasta:</strong> <span th:text="${#temporals.format(atencion.tratamiento.fechaFin, 'dd/MM/yyyy')}"></span>
+
+      </p>
+    </div>
+    <!-- Medicamentos -->
+    <div class="mb-3" th:if="${atencion.receta != null}">
+      <h6>Medicamentos Recetados</h6>
+      <ul class="list-group">
+        <li class="list-group-item" th:each="detalle : ${atencion.receta.recetaDetalles}">
+          <strong th:text="${detalle.medicamento.nombreMedicamento}"></strong> -
+          Dosis: <span th:text="${detalle.dosis}"></span>,
+          Frecuencia: <span th:text="${detalle.frecuencia}"></span>,
+          Duración: <span th:text="${detalle.duracion}"></span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Análisis -->
+    <div class="mb-3" th:if="${atencion.receta != null and #lists.size(atencion.receta.recetaAnalisis) > 0}">
+      <h6>Análisis Solicitados</h6>
+      <ul class="list-group">
+        <li class="list-group-item" th:each="a : ${atencion.receta.recetaAnalisis}">
+          <strong th:text="${a.analisis.nombreAnalisis}"></strong>
+          <span th:if="${a.observaciones != null}"> - <em th:text="${a.observaciones}"></em></span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Botón imprimir -->
+    <div class="text-end no-print mt-4">
+      <button class="btn btn-primary" onclick="window.print()">🖨 Imprimir</button>
+      <a th:href="@{/atenciones-medicas}" class="btn btn-secondary">Volver</a>
+    </div>
+
+  </div>
+  </body>
+  </html>

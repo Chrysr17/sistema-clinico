@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Asignar Horario a Médico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between">
+            <h5 class="mb-0">Asignación de Horario a Médico</h5>
+            <a href="/asignaciones" class="btn btn-light btn-sm">← Volver</a>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/asignaciones/guardar}" method="post">
+                <input type="hidden" name="editar" th:value="${editar}">
+
+                <div class="mb-3">
+                    <label for="idHorario" class="form-label">Fecha del Horario</label>
+                    <select id="idHorario" name="idHorario" class="form-select" required>
+                        <option value="" disabled selected>Seleccione una fecha</option>
+                        <option th:each="h : ${horarios}"
+                                th:value="${h.idHorario}"
+                                th:text="${#temporals.format(h.fechaHorario, 'dd/MM/yyyy')}"
+                                th:selected="${h.idHorario == horarioId}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="idMedico" class="form-label">Nombre del Médico</label>
+                    <select id="idMedico" name="idMedico" class="form-select" required>
+                        <option value="" disabled selected>Seleccione un médico</option>
+                        <option th:each="m : ${medicos}"
+                                th:value="${m.idMedico}"
+                                th:text="${m.nombreMedico}"
+                                th:selected="${m.idMedico == medicoId}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success px-4">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

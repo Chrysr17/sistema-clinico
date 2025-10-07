@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Horarios Disponibles</title>
+</head>
+<body>
+<h3>Horarios Disponibles</h3>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Especialidad</th>
+        <th>Médico</th>
+        <th>Hora</th>
+        <th>Día</th>
+        <th>Consultorio</th>
+        <th>Acción</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="horario : ${horarios}">
+        <td th:text="${horario.horarioMedico.medico.especialidad.nombre}"></td>
+        <td th:text="${horario.horarioMedico.medico.nombre}"></td>
+        <td th:text="${horario.hora.hora}"></td>
+        <td th:text="${horario.horarioMedico.horario.dia}"></td>
+        <td th:text="${horario.consultorio.nombre}"></td>
+        <td>
+            <a th:href="@{'/registrar/' + ${horario.id.idHorario} + '/' + ${horario.id.idMedico} + '/' + ${horario.id.idHora}}">Reservar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/paciente/historial">Ver historial de citas</a><br>
+<a href="/paciente/historia">Ver historia clínica</a>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Médicos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container py-5">
+        <form th:action="@{/medicos}" method="get" class="mb-3 d-flex align-items-center gap-2">
+            <label for="especialidadId" class="form-label mb-0">Filtrar por Especialidad:</label>
+            <select name="especialidadId" id="especialidadId" class="form-select w-auto" onchange="this.form.submit()">
+                <option value="0" th:selected="${especialidadId == 0}">-- Todas --</option>
+                <option th:each="esp : ${especialidades}" th:value="${esp.idEspecialidad}"
+                    th:text="${esp.nombreEspecialidad}" th:selected="${esp.idEspecialidad == especialidadId}">
+                </option>
+            </select>
+            <noscript>
+                <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            </noscript>
+        </form>
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Médicos Registrados</h5>
+                <div>
+                    <a href="/" class="btn btn-light btn-sm me-2">🏠 Menú Principal</a>
+                    <a href="/medicos/nuevo" class="btn btn-light btn-sm">+ Nuevo Médico</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Especialidad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="medico : ${lista}">
+                                <td th:text="${medico.idMedico}">1</td>
+                                <td th:text="${medico.nombreMedico}">Dr. Juan Pérez</td>
+                                <td th:text="${medico.especialidad.nombreEspecialidad}">Cardiología</td>
+                                <td th:text="${medico.estado}">Activo</td>
+                                <td>
+                                    <a th:href="@{/medicos/editar/{id}(id=${medico.idMedico})}"
+                                        class="btn btn-sm btn-warning">Editar</a>
+                                    <a th:href="@{/medicos/eliminar/{id}(id=${medico.idMedico})}"
+                                        class="btn btn-sm btn-danger"
+                                        onclick="return confirm('¿Está seguro de eliminar este médico?')">Eliminar</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${lista.size() == 0}">
+                                <td colspan="5" class="text-center">No hay médicos registrados.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

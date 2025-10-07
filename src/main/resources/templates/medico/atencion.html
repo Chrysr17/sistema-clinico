@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Atención al Paciente</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .remove-btn {
+      margin-top: 32px;
+    }
+    .card-header {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+    .section-title i {
+      color: #0d6efd;
+    }
+  </style>
+</head>
+<body class="bg-light mb-4">
+
+<div class="container mt-4">
+  <h3 class="mb-4">🩺 Atención a <span th:text="${paciente.nombres + ' ' + paciente.apellidos}" class="badge bg-primary fs-6"></span></h3>
+
+  <form th:action="@{/guardar-atencion}" method="post">
+    <!-- Hidden IDs -->
+    <input type="hidden" name="idCita" th:value="${cita.idCita}" />
+    <input type="hidden" name="idPaciente" th:value="${paciente.idPaciente}" />
+    <input type="hidden" name="idMedico" th:value="${cita.medico.idMedico}" />
+    <!-- Diagnóstico y Tratamiento -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">📝 Diagnóstico y Tratamiento</div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label">Diagnóstico</label>
+          <textarea class="form-control" name="descripcionDiagnostico" required placeholder="Describe el diagnóstico..."></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Tratamiento</label>
+          <textarea class="form-control" name="descripcionTratamiento" required placeholder="Indica el tratamiento a seguir..."></textarea>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Fecha Inicio</label>
+            <input type="date" class="form-control" th:field="*{tratamiento.fechaInicio}" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Fecha Fin</label>
+            <input type="date" class="form-control" th:field="*{tratamiento.fechaFin}" required>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medicamentos -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">💊 Medicamentos</div>
+      <div class="card-body">
+        <div id="medicamentos-container">
+          <div class="row mb-3 medicamento-row align-items-end">
+            <div class="col-md-4">
+              <label>Medicamento</label>
+              <select class="form-select" name="medicamentos">
+                <option value="">-- Seleccionar --</option>
+                <option th:each="med : ${medicamentos}" th:value="${med.idMedicamento}" th:text="${med.nombreMedicamento}"></option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label>Dosis</label>
+              <input type="text" class="form-control" name="dosis" placeholder="Ej: 1 tableta">
+            </div>
+            <div class="col-md-3">
+              <label>Frecuencia</label>
+              <input type="text" class="form-control" name="frecuencia" placeholder="Ej: Cada 8h">
+            </div>
+            <div class="col-md-2">
+              <label>Duración</label>
+              <input type="text" class="form-control" name="duracion" placeholder="Ej: 5 días">
+            </div>
+            <div class="col-md-1 text-end">
+              <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="eliminarFila(this)">🗑</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary btn-sm" onclick="agregarMedicamento()">+ Agregar Medicamento</button>
+      </div>
+    </div>
+
+    <!-- Análisis -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">🧪 Análisis</div>
+      <div class="card-body">
+        <div id="analisis-container">
+          <div class="row mb-3 analisis-row align-items-end">
+            <div class="col-md-5">
+              <label>Análisis</label>
+              <select class="form-select" name="analisis">
+                <option value="">-- Seleccionar --</option>
+                <option th:each="a : ${analisis}" th:value="${a.idAnalisis}" th:text="${a.nombreAnalisis}"></option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label>Observaciones</label>
+              <input type="text" class="form-control" name="observaciones" placeholder="Ej: Requiere ayuno">
+            </div>
+            <div class="col-md-1 text-end">
+              <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="eliminarFila(this)">🗑</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary btn-sm" onclick="agregarAnalisis()">+ Agregar Análisis</button>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="text-end">
+      <button type="submit" class="btn btn-success">Guardar Atención</button>
+      <a th:href="@{/citas}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+
+<!-- Scripts -->
+<script>
+  function agregarMedicamento() {
+    const container = document.getElementById('medicamentos-container');
+    const row = container.querySelector('.medicamento-row');
+    const clone = row.cloneNode(true);
+    clone.querySelectorAll('input').forEach(input => input.value = '');
+    clone.querySelector('select').selectedIndex = 0;
+    container.appendChild(clone);
+  }
+
+  function agregarAnalisis() {
+    const container = document.getElementById('analisis-container');
+    const row = container.querySelector('.analisis-row');
+    const clone = row.cloneNode(true);
+    clone.querySelectorAll('input').forEach(input => input.value = '');
+    clone.querySelector('select').selectedIndex = 0;
+    container.appendChild(clone);
+  }
+
+  function eliminarFila(button) {
+    const row = button.closest('.row');
+    const container = row.parentNode;
+    if (container.children.length > 1) {
+      container.removeChild(row);
+    }
+  }
+</script>
+
+</body>
+</html>

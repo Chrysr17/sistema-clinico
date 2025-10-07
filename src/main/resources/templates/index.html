@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú Principal - Sistema Clínico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            background-image: url("/images/fondo.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .navbar-brand {
+            font-size: 2.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand i {
+            font-size: 2.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .welcome-box {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 100px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .menu-item {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(0, 123, 255, 0.15);
+        }
+
+        .menu-item i {
+            font-size: 3rem;
+            color: #0d6efd;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #212529;
+            font-weight: 600;
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-heartbeat"></i> Sistema Clínico
+            </a>
+            <form th:action="@{/logout}" method="post" class="mb-0">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                </button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container text-center py-5">
+
+        <div class="welcome-box">
+            <h1 class="display-5 mb-4">Bienvenido al Sistema de Gestión Clínica</h1>
+            <p class="lead">Seleccione una opción del menú para comenzar a trabajar.</p>
+        </div>
+
+        <div class="menu-grid">
+            <div class="menu-item">
+                <a th:href="@{/empleados}">
+                    <i class="fas fa-users"></i>
+                    Empleados
+                </a>
+            </div>
+            <div class="menu-item">
+                <a th:href="@{/fechas}">
+                    <i class="fas fa-calendar-plus"></i>
+                    Fecha de Creación de Horarios
+                </a>
+            </div>
+            <div class="menu-item">
+                <a th:href="@{/medicos}">
+                    <i class="fas fa-user-md"></i>
+                    Médicos
+                </a>
+            </div>
+            <div class="menu-item">
+                <a th:href="@{/especialidades}">
+                    <i class="fas fa-stethoscope"></i>
+                    Especialidades
+                </a>
+            </div>
+            <div class="menu-item">
+                <a th:href="@{/asignaciones}">
+                    <i class="fas fa-tasks"></i>
+                    Asignación de Horarios
+                </a>
+            </div>
+            <div class="menu-item">
+                <a th:href="@{/atenciones}">
+                    <i class="fas fa-clock"></i>
+                    Horarios de Atención
+                </a>
+            </div>
+            <div class="menu-item">
+                <a th:href="@{/horas}">
+                    <i class="fas fa-hourglass-half"></i>
+                    Horas
+                </a>
+            </div>
+            <div class="menu-item">
+                <a th:href="@{/consultorios}">
+                    <i class="fas fa-clinic-medical"></i>
+                    Consultorios
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
