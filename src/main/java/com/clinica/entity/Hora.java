@@ -28,6 +28,8 @@ public class Hora {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
 	public Hora(Integer id, LocalTime horaInicio, LocalTime horaFin) {
 		super();
 		this.id = id;

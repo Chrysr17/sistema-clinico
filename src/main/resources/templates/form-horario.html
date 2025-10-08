@@ -15,7 +15,7 @@
                 <a href="/horarios" class="btn btn-light btn-sm">← Volver</a>
             </div>
             <div class="card-body">
-                <form th:action="@{/horarios/guardar}" th:object="${horario}" method="post">
+                <form th:action="@{/fechas/guardar}" th:object="${horario}" method="post">
                     <input type="hidden" th:field="*{idHorario}">
 
                     <div class="mb-3">

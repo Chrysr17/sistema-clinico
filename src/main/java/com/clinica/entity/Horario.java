@@ -61,6 +61,8 @@ public class Horario {
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
 	}
+
+
 	
 
 }

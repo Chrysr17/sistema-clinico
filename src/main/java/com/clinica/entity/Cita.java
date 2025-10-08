@@ -101,4 +101,6 @@ public class Cita {
 	public void setHora(Hora hora) {
 		this.hora = hora;
 	}
+
+
 }

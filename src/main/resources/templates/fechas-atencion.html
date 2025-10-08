@@ -1,33 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Fechas de Atención</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Fechas de Atención</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
 <div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-center mb-6 text-blue-700">Fechas de Atención</h1>
+    <h1 class="text-3xl font-bold text-center mb-6 text-blue-700">Fechas de Atención</h1>
 
-  <div class="overflow-x-auto shadow-lg rounded-lg">
-    <table class="min-w-full bg-white border border-gray-300">
-      <thead class="bg-blue-600 text-white">
-      <tr>
-        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">ID</th>
-        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Fecha</th>
-        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Empleado</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="horario : ${lista}" class="border-b hover:bg-blue-50">
-        <td class="px-6 py-4 text-sm" th:text="${horario.idHorario}"></td>
-        <td class="px-6 py-4 text-sm" th:text="${#temporals.format(horario.fechaHorario, 'dd/MM/yyyy')}"></td>
-        <td class="px-6 py-4 text-sm" th:text="${horario.empleado.nombreEmpleado}"></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+    <!-- Botones principales -->
+    <div class="flex flex-col md:flex-row justify-between mb-4 gap-2">
+        <a href="/fechas/nuevo"
+           class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded text-center">
+            Nueva Asignación
+        </a>
+        <a href="/"
+           class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded text-center">
+            Volver al Inicio
+        </a>
+    </div>
+
+    <div class="overflow-x-auto shadow-lg rounded-lg">
+        <table class="min-w-full bg-white border border-gray-300 text-left">
+            <thead class="bg-blue-600 text-white">
+            <tr>
+                <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">ID</th>
+                <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Fecha</th>
+                <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Empleado</th>
+                <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="horario : ${lista}" class="border-b hover:bg-blue-50">
+                <td class="px-6 py-4 text-sm" th:text="${horario.idHorario}"></td>
+                <td class="px-6 py-4 text-sm" th:text="${#temporals.format(horario.fechaHorario, 'dd/MM/yyyy')}"></td>
+                <td class="px-6 py-4 text-sm" th:text="${horario.empleado.nombreEmpleado}"></td>
+                <td class="px-6 py-4 text-sm flex flex-col md:flex-row gap-2">
+                    <a th:href="@{'/fechas/editar/' + ${horario.idHorario}}"
+                       class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1 px-3 rounded text-center">
+                        Editar
+                    </a>
+                    <a th:href="@{'/fechas/eliminar/' + ${horario.idHorario}}"
+                       class="bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-3 rounded text-center"
+                       onclick="return confirm('¿Está seguro de eliminar esta asignación?');">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 </body>
