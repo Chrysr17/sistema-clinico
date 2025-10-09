@@ -37,9 +37,11 @@ public class HorarioMedicoHora {
     // Constructores
     public HorarioMedicoHora() {}
 
-    public HorarioMedicoHora(HorarioMedicoHoraId id, Consultorio consultorio, String estado) {
+    public HorarioMedicoHora(HorarioMedicoHoraId id, HorarioMedico horarioMedico, Consultorio consultorio, Hora hora, String estado) {
         this.id = id;
+        this.horarioMedico = horarioMedico;
         this.consultorio = consultorio;
+        this.hora = hora;
         this.estado = estado;
     }
 

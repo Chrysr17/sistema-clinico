@@ -94,13 +94,11 @@ public class Cita {
 		this.horario = horario;
 	}
 
-	public Hora getHora() {
-		return hora;
-	}
+    public Hora getHora() {
+        return hora;
+    }
 
-	public void setHora(Hora hora) {
-		this.hora = hora;
-	}
-
-
+    public void setHora(Hora hora) {
+        this.hora = hora;
+    }
 }

@@ -3,7 +3,7 @@ package com.clinica.controller;
 import java.time.LocalDate;
 
 import com.clinica.entity.*;
-import com.clinica.service.MedicoService;
+import com.clinica.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.clinica.service.CitaService;
-import com.clinica.service.HorarioMedicoHoraService;
-import com.clinica.service.PacienteService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -32,6 +28,12 @@ public class CitaController {
 
 		@Autowired
 		private MedicoService medicoService;
+
+        @Autowired
+        private HoraService horaService;
+
+        @Autowired
+        private HorarioService horarioService;
 
 	    @GetMapping("/registrar/{idHorario}/{idMedico}/{idHora}")
 	    public String mostrarFormularioCita(@PathVariable("idHorario") Integer idHorario,
@@ -64,14 +66,17 @@ public class CitaController {
 
 		if (usuario != null) {
 			Paciente paciente = pacienteService.buscarPorUsuario(usuario);
-			HorarioMedicoHora horario = horarioMedicoHoraService
+			HorarioMedicoHora horarioMedicoHora = horarioMedicoHoraService
 					.buscarPorId(idHorario, idMedico, idHora);
 			Cita cita = new Cita();
 			cita.setFechaCita(LocalDate.now());
 			cita.setPaciente(paciente);
+            Horario horario = horarioService.buscarPorId(idHorario);
+            cita.setHorario(horario);
 			Medico medico = medicoService.buscarPorId(idMedico);
 			cita.setMedico(medico);
-
+            Hora hora = horaService.buscarPorId(idHora);
+            cita.setHora(hora);
 			citaService.registrarCita(cita);
 
 			horarioMedicoHoraService.actualizarEstadoHorario(idHorario, idMedico, idHora, "OCUPADO");
