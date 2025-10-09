@@ -23,6 +23,7 @@
                         <tr class="text-center">
                             <th scope="col">Id</th>
                             <th scope="col">Nombre de la Especialidad</th>
+                            <th scope="col">Precio</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -30,6 +31,7 @@
                         <tr th:each="esp : ${especialidades}">
                             <td class="text-center" th:text="${esp.idEspecialidad}"></td>
                             <td th:text="${esp.nombreEspecialidad}"></td>
+                            <td th:text="${esp.precio}"></td>
                             <td class="text-center">
                                 <a th:href="@{/especialidades/editar/{id}(id=${esp.idEspecialidad})}"
                                     class="btn btn-sm btn-outline-primary">Editar</a>
