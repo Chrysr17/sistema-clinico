@@ -23,13 +23,14 @@ public class ReniecApiController {
 
         ReniecResponse datos = reniecService.consultarDni(dni);
 
-        if (datos == null || !datos.isSuccess()) {
+        if (datos == null || datos.getDocument_number() == null) {
             return ResponseEntity.status(404).body("DNI no encontrado");
         }
 
         Map<String, String> resultado = new HashMap<>();
-        resultado.put("nombres", datos.getData().getNombres());
-        resultado.put("apellidos", datos.getData().getApellido_paterno() + " " + datos.getData().getApellido_materno());
+        resultado.put("nombres", datos.getFirst_name());
+        resultado.put("apellidos",
+                datos.getFirst_last_name() + " " + datos.getSecond_last_name());
 
         return ResponseEntity.ok(resultado);
     }

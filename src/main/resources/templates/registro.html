@@ -85,5 +85,27 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById("dni").addEventListener("blur", function() {
+        let dni = this.value.trim();
+
+        if (dni.length === 8) {
+            fetch(`/api/reniec/${dni}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("DNI no encontrado en RENIEC");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById("nombres").value = data.nombres;
+                    document.getElementById("apellidos").value = data.apellidos;
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
+    });
+</script>
 </body>
 </html>

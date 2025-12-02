@@ -3,10 +3,10 @@ package com.clinica.dto;
 public class ReniecData {
 
     private String numero;
+    private String nombre_completo;
     private String nombres;
     private String apellido_paterno;
     private String apellido_materno;
-    private String nombre_completo;
 
     public String getNumero() {
         return numero;
